@@ -1,7 +1,10 @@
 package test.android.contacts
 
+import android.content.ContentValues
 import android.content.Context
 import android.os.Bundle
+import android.provider.CallLog
+import android.util.Log
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.Button
@@ -26,7 +29,15 @@ internal class MainActivity : ComponentActivity() {
                 )
                 view.text = "add call log"
                 view.setOnClickListener { _ ->
-                    // todo
+                    val cv = ContentValues()
+                    val now = System.currentTimeMillis()
+                    val number = "+7${now % 1_000_000_0000}"
+                    cv.put(CallLog.Calls.NUMBER, number)
+                    try {
+                        context.contentResolver.insert(CallLog.Calls.CONTENT_URI, cv)
+                    } catch (error: Throwable) {
+                        Log.w("[Main]", "add call log error: $error")
+                    }
                 }
                 root.addView(view)
             }
