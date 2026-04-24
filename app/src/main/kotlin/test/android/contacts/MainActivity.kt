@@ -9,6 +9,7 @@ import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 
 internal class MainActivity : ComponentActivity() {
@@ -28,15 +29,22 @@ internal class MainActivity : ComponentActivity() {
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                 )
                 view.text = "add call log"
+                val type = CallLog.Calls.INCOMING_TYPE
                 view.setOnClickListener { _ ->
                     val cv = ContentValues()
                     val now = System.currentTimeMillis()
                     val number = "+7${now % 1_000_000_0000}"
+                    Log.d("[Main]", "number: $number")
                     cv.put(CallLog.Calls.NUMBER, number)
+                    cv.put(CallLog.Calls.TYPE, type)
+                    cv.put(CallLog.Calls.DATE, now)
+//                    cv.put(CallLog.Calls.DURATION, durationSec)
+//                    cv.put(CallLog.Calls.NEW, 1)
                     try {
                         context.contentResolver.insert(CallLog.Calls.CONTENT_URI, cv)
                     } catch (error: Throwable) {
                         Log.w("[Main]", "add call log error: $error")
+                        Toast.makeText(context, "$error", Toast.LENGTH_SHORT).show()
                     }
                 }
                 root.addView(view)
