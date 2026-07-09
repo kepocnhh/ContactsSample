@@ -25,12 +25,9 @@ internal class CallLogsService : ConnectionService() {
         request: ConnectionRequest?,
     ): Connection? {
         logger.debug("on create incoming connection")
-        val connection = object : Connection() {
-            init {
-                connectionProperties = PROPERTY_SELF_MANAGED
-                audioModeIsVoip = true
-            }
-        }
+        val connection = object : Connection() {}
+        connection.connectionProperties = Connection.PROPERTY_SELF_MANAGED
+        connection.audioModeIsVoip = true
         val address: Uri? = request?.address
         connection.setAddress(address, TelecomManager.PRESENTATION_ALLOWED)
         val cdn = request?.extras?.getString("CallerDisplayName")

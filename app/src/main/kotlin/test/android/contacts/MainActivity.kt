@@ -29,10 +29,15 @@ internal class MainActivity : ComponentActivity() {
 //        val dc = DisconnectCause.REMOTE
 //        val dc = DisconnectCause.MISSED
         val dc = DisconnectCause.REJECTED
-        val cdn = "user$dc"
+//        val cdn = "user$dc"
+//        val cdn = "1foo2bar3"
+        val cdn = "Звонок в кв 42"
         extras.putParcelable(
             TelecomManager.EXTRA_INCOMING_CALL_ADDRESS,
-            Uri.fromParts("sip", "$cdn@foo.org", null),
+//            Uri.fromParts("sip", "$cdn@foo.org", null),
+//            Uri.fromParts("sip", "$cdn@localhost", null),
+//            Uri.fromParts("sip", "kv42", null),
+            Uri.fromParts("sip", "$cdn @", null),
         )
         extras.putString("CallerDisplayName", cdn)
         extras.putInt("DisconnectCause", dc)
