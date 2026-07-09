@@ -1,7 +1,10 @@
 package test.android.contacts
 
+import android.content.ComponentName
 import android.content.Context
 import android.os.Bundle
+import android.telecom.PhoneAccountHandle
+import android.telecom.TelecomManager
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.Button
@@ -10,7 +13,15 @@ import androidx.activity.ComponentActivity
 
 internal class MainActivity : ComponentActivity() {
     private fun onAddCallLog() {
-        TODO("MainActivity:onAddCallLog")
+        val context: Context = this
+        val tm = context.getSystemService(TelecomManager::class.java)
+        val handle = PhoneAccountHandle(
+            ComponentName(context, CallLogsService::class.java),
+            "${BuildConfig.APPLICATION_ID}:call_logs_handle",
+        )
+        val extras = Bundle()
+        extras.putString("CallerDisplayName", "foobarbaz")
+        tm.addNewIncomingCall(handle, extras)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
