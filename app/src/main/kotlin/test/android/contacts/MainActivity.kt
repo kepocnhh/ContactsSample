@@ -12,7 +12,10 @@ import android.widget.LinearLayout
 import androidx.activity.ComponentActivity
 
 internal class MainActivity : ComponentActivity() {
+    private val logger = App.providers.loggers.create("[Main]")
+
     private fun onAddCallLog() {
+        logger.debug("on add call log")
         val context: Context = this
         val tm = context.getSystemService(TelecomManager::class.java)
         val handle = PhoneAccountHandle(

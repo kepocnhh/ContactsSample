@@ -9,10 +9,13 @@ import android.telecom.PhoneAccountHandle
 import android.telecom.TelecomManager
 
 internal class CallLogsService : ConnectionService() {
+    private val logger = App.providers.loggers.create("[CallLogs]")
+
     override fun onCreateIncomingConnection(
         connectionManagerPhoneAccount: PhoneAccountHandle?,
         request: ConnectionRequest?,
     ): Connection? {
+        logger.debug("on create incoming connection")
         val connection = object : Connection() {
             init {
                 connectionProperties = PROPERTY_SELF_MANAGED
