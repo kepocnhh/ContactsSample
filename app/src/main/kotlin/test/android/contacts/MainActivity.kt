@@ -4,6 +4,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.telecom.DisconnectCause
 import android.telecom.PhoneAccountHandle
 import android.telecom.TelecomManager
 import android.view.Gravity
@@ -24,13 +25,17 @@ internal class MainActivity : ComponentActivity() {
             "${BuildConfig.APPLICATION_ID}:call_logs_handle",
         )
         val extras = Bundle()
-        val pointer = System.currentTimeMillis() % 1_000
-        val cdn = "user$pointer"
+//        val dc = DisconnectCause.LOCAL
+//        val dc = DisconnectCause.REMOTE
+//        val dc = DisconnectCause.MISSED
+        val dc = DisconnectCause.REJECTED
+        val cdn = "user$dc"
         extras.putParcelable(
             TelecomManager.EXTRA_INCOMING_CALL_ADDRESS,
             Uri.fromParts("sip", "$cdn@foo.org", null),
         )
         extras.putString("CallerDisplayName", cdn)
+        extras.putInt("DisconnectCause", dc)
         tm.addNewIncomingCall(handle, extras)
     }
 

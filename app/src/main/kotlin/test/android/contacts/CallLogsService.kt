@@ -37,12 +37,13 @@ internal class CallLogsService : ConnectionService() {
         if (!cdn.isNullOrEmpty()) {
             connection.setCallerDisplayName(cdn, TelecomManager.PRESENTATION_ALLOWED)
         }
+        val dc = request?.extras?.getInt("DisconnectCause", DisconnectCause.UNKNOWN) ?: DisconnectCause.UNKNOWN
         connection.setRinging()
         coroutineScope.launch {
             withContext(Dispatchers.Default) {
                 delay(1.seconds)
             }
-            connection.setDisconnected(DisconnectCause(DisconnectCause.REJECTED))
+            connection.setDisconnected(DisconnectCause(dc))
             connection.destroy()
         }
         return connection
